@@ -1,5 +1,18 @@
 #include "WS2812-Driver.h"
 
+//******** How This Driver Works ********//
+//  According to the WS2812 datasheet the protocol runs at 800kHz https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf
+//  A '1' bit is created by a pulse which starts high, ends low and has a duty cycle of 64% (.8uS HIGH and 0.4uS LOW)
+//  A '0' bit is created by a pulse which starts high, ends low and has a duty cycle of 32% (.4uS HIGH and 0.85uS LOW)
+//  The tolerance on every edge is 150nS
+//  By using a frequency of 3 x 800 kHz = 2.4MHz, 3 bits at 2.4MHz represent each bit at 800KHz
+//  Each series of 3 bit begins with a '1' and ends with a '0'
+//  The middle bit is modified to represent the color bit
+//  If the middle bit is set to '1' the duty cycle will be 66% (0.833uS HIGH and 0.416uS LOW)
+//  If the middle bit is set to '0' the duty cycle will be 33% (0.416uS HIGH and 0.833uS LOW)
+//  These HIGH and LOW times are within 40nS of the specifications from the datasheet and are well within the 150nS allowed tolerance for the protocol
+//  This driver uses the USART peripheral with the CLK, CS and RX disabled as only the TX pin is needed
+
 #define NUMBER_OF_COLOR_BITS (NUMBER_OF_LEDS * 3 * 8) //3 color channels, 8 bits each
 #define USART_NUMBER_OF_BITS (NUMBER_OF_COLOR_BITS * 3)  //3 USART bits are required to make a full 1.25uS color bit, each USART bit is 416nS
 #define USART_BUFFER_SIZE_BYTES ((USART_NUMBER_OF_BITS / 8) + 15) //How big the USART buffer should be, the first 15 bytes should be empty to provide a 50uS reset signal
