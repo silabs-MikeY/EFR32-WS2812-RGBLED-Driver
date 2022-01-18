@@ -1,0 +1,26 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: Neopixel-UART
+label: Neopixel-UART
+description: |
+  This example project shows an empty configuration that can be used as a starting point to add components and functionality.
+category: Example|Platform
+package: platform
+quality: production
+source:
+- {path: app.c}
+- {path: main.c}
+include:
+- path: ''
+  file_list:
+  - {path: app.h}
+sdk: {id: gecko_sdk, version: 4.0.0}
+toolchain_settings: []
+component:
+- {id: sl_system}
+- {id: device_init}
+- {id: EFM32GG11B820F2048GL192}
+- {id: brd2204a}
+define:
+- {name: DEBUG_EFM}
+ui_hints: {}
+
