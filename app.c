@@ -60,13 +60,6 @@ void colorTest(void)
   setColorBuffer((uint8_t*)RGB_color_buffer);
 }
 
-void LDMA_IRQHandler()
-{
-  uint32_t flags = LDMA_IntGet();
-  LDMA_IntClear(flags);
-
-}
-
 void LETIMER0_IRQHandler(void)
 {
   if (LETIMER_IntGet(LETIMER0) & LETIMER_IEN_UF)
