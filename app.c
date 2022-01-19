@@ -26,7 +26,7 @@
 
 void colorTest(void)
 {
-  RGB RGB_color_buffer[NUMBER_OF_LEDS] = {0};
+  RGB RGB_color_buffer[NUMBER_OF_LEDS];
   for(uint8_t i = 0; i<NUMBER_OF_LEDS;i++)
   {
     switch(rand() % 6){
