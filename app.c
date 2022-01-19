@@ -14,6 +14,7 @@
  * sections of the MSLA applicable to Source Code.
  *
  ******************************************************************************/
+#include "app.h"
 #include "em_device.h"
 #include "em_chip.h"
 #include "em_cmu.h"
@@ -31,25 +32,25 @@ void colorTest(void)
   {
     switch(rand() % 6){
       case 0:
-        RGB_color_buffer[i] = reduceColorBrightness(red,50);
+        RGB_color_buffer[i] = reduceColorBrightness(red,100);
         break;
       case 1:
-        RGB_color_buffer[i] = reduceColorBrightness(green,50);
+        RGB_color_buffer[i] = reduceColorBrightness(green,100);
         break;
       case 2:
-        RGB_color_buffer[i] = reduceColorBrightness(blue,50);
+        RGB_color_buffer[i] = reduceColorBrightness(blue,100);
         break;
       case 3:
-        RGB_color_buffer[i] = reduceColorBrightness(yellow,50);
+        RGB_color_buffer[i] = reduceColorBrightness(yellow,100);
         break;
       case 4:
-        RGB_color_buffer[i] = reduceColorBrightness(magenta,50);
+        RGB_color_buffer[i] = reduceColorBrightness(magenta,100);
         break;
       case 5:
-        RGB_color_buffer[i] = reduceColorBrightness(cyan,50);
+        RGB_color_buffer[i] = reduceColorBrightness(cyan,100);
         break;
       case 6:
-        RGB_color_buffer[i] = reduceColorBrightness(white,50);
+        RGB_color_buffer[i] = reduceColorBrightness(white,100);
         break;
       default:
         RGB_color_buffer[i] = black;

@@ -3,6 +3,7 @@
 #include "em_usart.h"
 #include "em_ldma.h"
 #include "colors.h"
+#include "app.h"
 
 //NEEDS TO BE USER DEFINED
 #ifndef NUMBER_OF_LEDS
