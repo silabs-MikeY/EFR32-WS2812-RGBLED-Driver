@@ -102,6 +102,12 @@ void set_color_buffer(uint8_t *input_color_buffer)
   LDMA_StartTransfer(TX_DMA_CHANNEL, &ldmaTXConfig, &ldmaTXDescriptor);
 }
 
+void init_ws2812_driver (void)
+{
+  init_serial_output();
+  init_LDMA();
+}
+
 void init_serial_output (void)
 {
   CMU_ClockEnable(cmuClock_GPIO, true);
@@ -126,6 +132,12 @@ void init_serial_output (void)
   USART_PERIPHERAL->ROUTEPEN = USART_ROUTEPEN_TXPEN;
   // Enable USART
   USART_Enable(USART_PERIPHERAL, usartEnableTx);
+}
+
+void LDMA_IRQHandler()
+{
+  uint32_t flags = LDMA_IntGet();
+  LDMA_IntClear(flags);
 }
 
 void init_LDMA(void)

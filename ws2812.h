@@ -74,6 +74,7 @@
 
 
 void set_color_buffer(uint8_t* input_color_buffer);
+void init_ws2812_driver (void);
 void init_serial_output (void);
 void init_LDMA(void);
 

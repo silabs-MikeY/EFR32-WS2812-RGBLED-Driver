@@ -102,11 +102,8 @@ void app_init(void)
   // Initialize chip
   CHIP_Init();
 
-  init_serial_output();
-  init_LDMA();
-
+  init_ws2812_driver();
   start_color_test();
-
 }
 /***************************************************************************//**
  * App ticking function.

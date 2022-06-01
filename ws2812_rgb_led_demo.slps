@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <model:MDescriptors xmlns:model="http://www.silabs.com/ss/Studio.ecore">
-  <descriptors name="ws2812-demo">
+  <descriptors name="ws2812_rgb_led_demo">
     <properties key="projectCommon.sdkId" value="com.silabs.sdk.stack.super:4.0.0._-940544639"/>
-    <properties key="universalConfig.generationDirectory" value="C:\Users\MIYABLON\SimplicityStudio\v5_workspace\ws2812-demo"/>
+    <properties key="universalConfig.generationDirectory" value="C:\Users\MIYABLON\SimplicityStudio\v5_workspace\ws2812_rgb_led_demo"/>
     <properties key="universalConfig.toolchainCompatibility" value="iar gcc"/>
     <properties key="projectCommon.boardIds" value="brd2204a:0.0.0.B00"/>
     <properties key="projectCommon.partId" value="mcu.arm.efm32.gg11.efm32gg11b820f2048gl192"/>
