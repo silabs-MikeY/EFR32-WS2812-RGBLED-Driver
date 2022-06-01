@@ -1,6 +1,6 @@
 # Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
-project_name: Neopixel-UART
-label: Neopixel-UART
+project_name: ws2812-demo
+label: ws2812-demo
 description: |
   This example project shows an empty configuration that can be used as a starting point to add components and functionality.
 category: Example|Platform

@@ -35,7 +35,7 @@
 * Silicon Labs may update projects from time to time.
 ******************************************************************************/
 
-#include <WS2812_driver.h>
+#include <ws2812.h>
 
 //******** How This Driver Works ********//
 //  According to the WS2812 datasheet the protocol runs at 800kHz https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf

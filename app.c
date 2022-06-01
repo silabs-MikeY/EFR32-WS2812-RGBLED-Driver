@@ -27,7 +27,7 @@
 #include "em_gpio.h"
 #include "colors.h"
 #include <stdlib.h>
-#include <WS2812_driver.h>
+#include <ws2812.h>
 #include "em_letimer.h"
 #include "em_emu.h"
 

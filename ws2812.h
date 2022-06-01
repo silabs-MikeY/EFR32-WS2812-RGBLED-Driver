@@ -35,8 +35,8 @@
 * Silicon Labs may update projects from time to time.
 ******************************************************************************/
 
-#ifndef WS2812_DRIVER_H_
-#define WS2812_DRIVER_H_
+#ifndef WS2812_H_
+#define WS2812_H_
 #include "em_usart.h"
 #include "em_ldma.h"
 #include "colors.h"
@@ -77,4 +77,4 @@ void set_color_buffer(uint8_t* input_color_buffer);
 void init_serial_output (void);
 void init_LDMA(void);
 
-#endif /* WS2812_DRIVER_H_ */
+#endif /* WS2812_H_ */
