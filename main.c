@@ -13,7 +13,15 @@
  * software is distributed to you in Source Code format and is governed by the
  * sections of the MSLA applicable to Source Code.
  *
- ******************************************************************************/
+ ******************************************************************************
+* # Experimental Quality
+* This code has not been formally tested and is provided as-is. It is not
+* suitable for production environments. In addition, this code will not be
+* maintained and there may be no bug maintenance planned for these resources.
+* Silicon Labs may update projects from time to time.
+******************************************************************************/
+
+
 #include "sl_component_catalog.h"
 #include "sl_system_init.h"
 #include "app.h"

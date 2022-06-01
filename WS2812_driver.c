@@ -1,7 +1,7 @@
 /***************************************************************************//**
-* @file example_file.c
-* @brief (optional)
-* @version (optional)
+* @file WS2812_driver.c
+* @brief Driver File for WS2812 RGB LEDs
+* @version v1.0
 *******************************************************************************
 * # License
 * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>

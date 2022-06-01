@@ -1,6 +1,6 @@
 /***************************************************************************//**
- * @file
- * @brief Top level application functions
+ * @file app.c
+ * @brief Top level application functions.  Demo application for WS2812 driver
  *******************************************************************************
  * # License
  * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
@@ -13,7 +13,13 @@
  * software is distributed to you in Source Code format and is governed by the
  * sections of the MSLA applicable to Source Code.
  *
- ******************************************************************************/
+ ******************************************************************************
+* # Experimental Quality
+* This code has not been formally tested and is provided as-is. It is not
+* suitable for production environments. In addition, this code will not be
+* maintained and there may be no bug maintenance planned for these resources.
+* Silicon Labs may update projects from time to time.
+******************************************************************************/
 #include "app.h"
 #include "em_device.h"
 #include "em_chip.h"
