@@ -36,8 +36,8 @@
 #endif
 
 
-void setColorBuffer(uint8_t* inputColorBuffer);
-void initSerialOutput (void);
-void initLDMA(void);
+void set_color_buffer(uint8_t* input_color_buffer);
+void init_serial_output (void);
+void init_LDMA(void);
 
 #endif /* WS2812_DRIVER_H_ */

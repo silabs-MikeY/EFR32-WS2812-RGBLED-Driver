@@ -20,56 +20,55 @@
 #include "em_cmu.h"
 #include "em_gpio.h"
 #include "colors.h"
-#include "WS2812-Driver.h"
 #include <stdlib.h>
+#include <WS2812_driver.h>
 #include "em_letimer.h"
 #include "em_emu.h"
 
-void colorTest(void)
+void color_test(void)
 {
-  RGB RGB_color_buffer[NUMBER_OF_LEDS];
-  for(uint8_t i = 0; i<NUMBER_OF_LEDS;i++)
-  {
+  rgb_t rgb_color_buffer[NUMBER_OF_LEDS];
+#define LED_INTENSITY 100
+  for(uint8_t i = 0; i<NUMBER_OF_LEDS;i++){
     switch(rand() % 6){
       case 0:
-        RGB_color_buffer[i] = reduceColorBrightness(red,100);
+        rgb_color_buffer[i] = reduce_color_brightness(red,LED_INTENSITY);
         break;
       case 1:
-        RGB_color_buffer[i] = reduceColorBrightness(green,100);
+        rgb_color_buffer[i] = reduce_color_brightness(green,LED_INTENSITY);
         break;
       case 2:
-        RGB_color_buffer[i] = reduceColorBrightness(blue,100);
+        rgb_color_buffer[i] = reduce_color_brightness(blue,LED_INTENSITY);
         break;
       case 3:
-        RGB_color_buffer[i] = reduceColorBrightness(yellow,100);
+        rgb_color_buffer[i] = reduce_color_brightness(yellow,LED_INTENSITY);
         break;
       case 4:
-        RGB_color_buffer[i] = reduceColorBrightness(magenta,100);
+        rgb_color_buffer[i] = reduce_color_brightness(magenta,LED_INTENSITY);
         break;
       case 5:
-        RGB_color_buffer[i] = reduceColorBrightness(cyan,100);
+        rgb_color_buffer[i] = reduce_color_brightness(cyan,LED_INTENSITY);
         break;
       case 6:
-        RGB_color_buffer[i] = reduceColorBrightness(white,100);
+        rgb_color_buffer[i] = reduce_color_brightness(white,LED_INTENSITY);
         break;
       default:
-        RGB_color_buffer[i] = black;
+        rgb_color_buffer[i] = black;
         break;
     }
   }
-  setColorBuffer((uint8_t*)RGB_color_buffer);
+  set_color_buffer((uint8_t *)rgb_color_buffer);
 }
 
 void LETIMER0_IRQHandler(void)
 {
-  if (LETIMER_IntGet(LETIMER0) & LETIMER_IEN_UF)
-  {
+  if (LETIMER_IntGet(LETIMER0) & LETIMER_IEN_UF){
     LETIMER_IntClear(LETIMER0, LETIMER_IEN_UF);
-    colorTest();
+    color_test();
   }
 }
 
-void startColorTest()
+void start_color_test()
 {
   LETIMER_Init_TypeDef letimerInit = LETIMER_INIT_DEFAULT;
   CMU_ClockEnable(cmuClock_HFLE, true);
@@ -97,10 +96,10 @@ void app_init(void)
   // Initialize chip
   CHIP_Init();
 
-  initSerialOutput();
-  initLDMA();
+  init_serial_output();
+  init_LDMA();
 
-  startColorTest();
+  start_color_test();
 
 }
 /***************************************************************************//**

@@ -1,4 +1,41 @@
-#include "WS2812-Driver.h"
+/***************************************************************************//**
+* @file example_file.c
+* @brief (optional)
+* @version (optional)
+*******************************************************************************
+* # License
+* <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
+*******************************************************************************
+*
+* SPDX-License-Identifier: Zlib
+*
+* The licensor of this software is Silicon Laboratories Inc.
+*
+* This software is provided \'as-is\', without any express or implied
+* warranty. In no event will the authors be held liable for any damages
+* arising from the use of this software.
+*
+* Permission is granted to anyone to use this software for any purpose,
+* including commercial applications, and to alter it and redistribute it
+* freely, subject to the following restrictions:
+*
+* 1. The origin of this software must not be misrepresented; you must not
+*    claim that you wrote the original software. If you use this software
+*    in a product, an acknowledgment in the product documentation would be
+*    appreciated but is not required.
+* 2. Altered source versions must be plainly marked as such, and must not be
+*    misrepresented as being the original software.
+* 3. This notice may not be removed or altered from any source distribution.
+*
+*******************************************************************************
+* # Experimental Quality
+* This code has not been formally tested and is provided as-is. It is not
+* suitable for production environments. In addition, this code will not be
+* maintained and there may be no bug maintenance planned for these resources.
+* Silicon Labs may update projects from time to time.
+******************************************************************************/
+
+#include <WS2812_driver.h>
 
 //******** How This Driver Works ********//
 //  According to the WS2812 datasheet the protocol runs at 800kHz https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf
@@ -26,46 +63,46 @@ static uint8_t USART_tx_buffer[USART_BUFFER_SIZE_BYTES];
 static LDMA_Descriptor_t ldmaTXDescriptor;
 static LDMA_TransferCfg_t ldmaTXConfig;
 
-void setColorBuffer(uint8_t* inputColorBuffer)
+void set_color_buffer(uint8_t *input_color_buffer)
 {
   // each color bit is encoded by 3 bits, the first bit is always 1 and the third bit is always 0.  The actual color bit value is encoded into the second bit
   // each color channel(1 byte) therefore requires 3 bytes to be transmitted
-  // the entire 3-byte sequence is 8 repititions of (1x0)
+  // the entire 3-byte sequence is 8 repetitions of (1x0) ->  1x01 x01x 01x0 1x01 x01x 01x0
   // each x represents a color bit
-  // the x can be assumed to be 0 for now
 
-  //FIRST_BYTE
-#define FIRST_BYTE_DEFAULT 0x92; // 1x01 x01x  1st byte which contains color bits 7,6 & 5
-#define BIT_7 0x80 >> 1 //isolate bit 7 and shift to position 6, these defines are purposely not bracketed to ensure proper Order Of Operations
-#define BIT_6 0x40 >> 3 //isolate bit 6 and shift to position 3
-#define BIT_5 0x20 >> 5 //isolate bit 5 and shift to position 0
-  //SECOND BYTE
-#define SECOND_BYTE_DEFAULT 0x49; // 01x0 1x01  2nd Byte which contains color bits 4 & 3
-#define BIT_4 0x10 << 1 //isolate bit 4 and shift to position 5
-#define BIT_3 0x08 >> 1 //isolate bit 3 and shift to position 2
-  //THIRD BYTE
-#define THIRD_BYTE_DEFAULT 0x24; // x01x 01x0  3rd Byte which contains color bits 2,1 & 0
-#define BIT_2 0x04 << 5 //isolate bit 2 and shift to position 7
-#define BIT_1 0x02 << 3 //isolate bit 1 and shift to position 4
-#define BIT_0 0x01 << 1 //isolate bit 0 and shift to position 1
-
-  uint8_t* color_byte = inputColorBuffer;
+  uint8_t *input_color_byte = input_color_buffer; //isolate the first byte
   uint32_t usart_buffer_index = 0;
-  while(usart_buffer_index < USART_BUFFER_SIZE_BYTES)
-  {
-    USART_tx_buffer[usart_buffer_index] = (*color_byte & BIT_7) | (*color_byte & BIT_6) | (*color_byte & BIT_5) | FIRST_BYTE_DEFAULT;
+  while (usart_buffer_index < USART_BUFFER_SIZE_BYTES){
+    //FIRST_BYTE
+    #define FIRST_BYTE_DEFAULT 0x92; // 1x01 x01x  1st byte which contains color bits 7,6 & 5.     x is defaulted to 0
+    uint8_t bit_7 = (*input_color_byte & 0x80) >> 1; //isolate bit 7 and shift to position 6
+    uint8_t bit_6 = (*input_color_byte & 0x40) >> 3; //isolate bit 6 and shift to position 3
+    uint8_t bit_5 = (*input_color_byte & 0x20) >> 5; //isolate bit 5 and shift to position 0
+    USART_tx_buffer[usart_buffer_index] = bit_7 | bit_6 | bit_5 | FIRST_BYTE_DEFAULT;
     usart_buffer_index++;
-    USART_tx_buffer[usart_buffer_index] = (*color_byte & BIT_4) | (*color_byte & BIT_3) | SECOND_BYTE_DEFAULT;
+
+    //SECOND BYTE
+    #define SECOND_BYTE_DEFAULT 0x49; // 01x0 1x01  2nd Byte which contains color bits 4 & 3
+    uint8_t bit_4 = (*input_color_byte & 0x10) << 1; //isolate bit 4 and shift to position 5
+    uint8_t bit_3 = (*input_color_byte & 0x08) >> 1; //isolate bit 3 and shift to position 2
+    USART_tx_buffer[usart_buffer_index] = bit_4 | bit_3 | SECOND_BYTE_DEFAULT;
     usart_buffer_index++;
-    USART_tx_buffer[usart_buffer_index] = (*color_byte & BIT_2) | (*color_byte & BIT_1) | (*color_byte & BIT_0) | THIRD_BYTE_DEFAULT;
+
+    //THIRD BYTE
+    #define THIRD_BYTE_DEFAULT 0x24; // x01x 01x0  3rd Byte which contains color bits 2,1 & 0
+    uint8_t bit_2 = (*input_color_byte & 0x04) << 5; //isolate bit 2 and shift to position 7
+    uint8_t bit_1 = (*input_color_byte & 0x02) << 3; //isolate bit 1 and shift to position 4
+    uint8_t bit_0 = (*input_color_byte & 0x01) << 1; //isolate bit 0 and shift to position 1
+    USART_tx_buffer[usart_buffer_index] = bit_2 | bit_1 | bit_0 | THIRD_BYTE_DEFAULT;
     usart_buffer_index++;
-    color_byte++;
+
+    input_color_byte++; //move to the next color byte
   }
 
   LDMA_StartTransfer(TX_DMA_CHANNEL, &ldmaTXConfig, &ldmaTXDescriptor);
 }
 
-void initSerialOutput (void)
+void init_serial_output (void)
 {
   CMU_ClockEnable(cmuClock_GPIO, true);
   CMU_ClockEnable(USART_CMU_CLK, true);
@@ -91,7 +128,7 @@ void initSerialOutput (void)
   USART_Enable(USART_PERIPHERAL, usartEnableTx);
 }
 
-void initLDMA(void)
+void init_LDMA(void)
 {
   CMU_ClockEnable(cmuClock_LDMA, true);
   LDMA_Init_t ldmaInit = LDMA_INIT_DEFAULT;
